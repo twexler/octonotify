@@ -14,19 +14,24 @@ type NotificationLister interface {
 	ListNotifications(context.Context, *github.NotificationListOptions) ([]*github.Notification, *github.Response, error)
 }
 
-type watcher struct {
-	lister NotificationLister
+// Watcher watches the ListNotifications endpoint for new notifications
+type Watcher struct {
+	lister           NotificationLister
+	notificationChan chan<- Notification
 }
 
 // New returns a new Watcher instance
-func New(lister NotificationLister) *watcher {
-	return &watcher{
-		lister: lister,
+func New(lister NotificationLister, notificationChan chan<- Notification) *Watcher {
+	return &Watcher{
+		lister:           lister,
+		notificationChan: notificationChan,
 	}
 }
 
-func (w *watcher) Run(ctx context.Context, interval time.Duration) {
-	timer := time.NewTimer(interval)
+// Run starts the Watcher
+func (w *Watcher) Run(ctx context.Context, interval time.Duration) {
+	logrus.Debug("Starting watcher")
+	timer := time.NewTicker(interval)
 	lastRun := time.Now()
 	w.checkNotifications(ctx, lastRun)
 	for t := range timer.C {
@@ -35,7 +40,7 @@ func (w *watcher) Run(ctx context.Context, interval time.Duration) {
 	}
 }
 
-func (w *watcher) checkNotifications(ctx context.Context, lastRun time.Time) {
+func (w *Watcher) checkNotifications(ctx context.Context, lastRun time.Time) {
 	logrus.Info("checking for notifications")
 	subCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
@@ -49,4 +54,7 @@ func (w *watcher) checkNotifications(ctx context.Context, lastRun time.Time) {
 		}).Error("error calling github")
 	}
 	logrus.WithField("notifs", notifs).Debug("got notifications")
+	for _, n := range notifs {
+		w.notificationChan <- newNotification(n)
+	}
 }
