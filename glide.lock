@@ -1,5 +1,5 @@
-hash: ee2f00810d19c4189dc533a471716f663e761af283528ff5e651c209c7820de3
-updated: 2018-03-11T14:58:16.112883-07:00
+hash: 3de4b7b4e63fbe16582bbbc82981e0894c1a4ecbd73eac8def7f0a751cad4b49
+updated: 2018-03-11T16:52:41.240984-07:00
 imports:
 - name: github.com/AlecAivazis/survey
   version: 9d3458c219bae9653d267883634bdb5375281fd8
@@ -9,6 +9,8 @@ imports:
   version: 982e34175ed3b8dc0d100fb0f0b06d8e2639ec4e
 - name: github.com/getlantern/systray
   version: fe4b1c6bb216a485a73414ce55047ec7ce3a9766
+- name: github.com/godbus/dbus
+  version: 885f9cc04c9c1a6a61a2008e211d36c5737be3f5
 - name: github.com/golang/protobuf
   version: 4bd1920723d7b7c925de087aa32e2187708897f7
   subpackages:
@@ -21,6 +23,10 @@ imports:
   version: 53e6ce116135b80d037921a7fdd5138cf32d7a8a
   subpackages:
   - query
+- name: github.com/gopherjs/gopherjs
+  version: df18d38287ab2ed3138d564e7c8cbe4d5a249d87
+  subpackages:
+  - js
 - name: github.com/hashicorp/hcl
   version: 23c074d0eceb2b8a5bfdbb271ab780cde70f05a8
   subpackages:
@@ -45,10 +51,12 @@ imports:
   version: 9520e82c474b0a04dd04f8a40959027271bab992
 - name: github.com/mitchellh/mapstructure
   version: 00c29f56e2386353d58c599509e8dc3801b0d716
+- name: github.com/nu7hatch/gouuid
+  version: 179d4d0c4d8d407a32af483c2354df1d2c91e6c3
 - name: github.com/pelletier/go-toml
   version: 05bcc0fb0d3e60da4b8dd5bd7e0ea563eb4ca943
 - name: github.com/sirupsen/logrus
-  version: d682213848ed68c0a260ca37d6dd5ace8423f5ba
+  version: c155da19408a8799da419ed3eeb0cb5db0ad5dbc
 - name: github.com/spf13/afero
   version: bbf41cb36dffe15dff5bf7e18c447801e7ffe163
   subpackages:
@@ -63,6 +71,8 @@ imports:
   version: ee5fd03fd6acfd43e44aea0b4135958546ed8e73
 - name: github.com/spf13/viper
   version: aafc9e6bc7b7bb53ddaa75a5ef49a17d6e654be5
+- name: github.com/zalando/go-keyring
+  version: 6d81c293b3fbc8a9b1bcf4bc9c167c2e1d1f52cf
 - name: golang.org/x/crypto
   version: 81e90905daefcd6fd217b62423c0908922eadb30
   subpackages:
@@ -80,6 +90,7 @@ imports:
   subpackages:
   - unix
   - windows
+  - windows/registry
 - name: golang.org/x/text
   version: b19bf474d317b857955b12035d2c5acb57ce8b01
   subpackages:
@@ -100,6 +111,8 @@ imports:
   subpackages:
   - core
   - terminal
+- name: gopkg.in/toast.v1
+  version: b700e246b8b6d3e13554091e540e1019e26389f1
 - name: gopkg.in/yaml.v2
   version: 53feefa2559fb8dfa8d81baad31be332c97d6c77
 testImports: []

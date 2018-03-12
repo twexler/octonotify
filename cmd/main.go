@@ -2,8 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/hex"
-	"errors"
 	"fmt"
 	"os"
 	"os/signal"
@@ -11,7 +9,6 @@ import (
 
 	"github.com/twexler/octonotify/notifier"
 
-	"github.com/AlecAivazis/survey"
 	"github.com/google/go-github/github"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -49,30 +46,13 @@ func cobraMain(cmd *cobra.Command, _ []string) {
 		logrus.WithError(err).Warn("invalid level")
 	}
 	logrus.SetLevel(level)
-	var githubKey string
-	if githubKey = viper.GetString("githubKey"); githubKey == "" {
-		// TODO: use keychain/DPAPI+reg/etc
-		prompt := survey.Input{
-			Message: "Enter your github personal access token (requires the 'notifications' scope:",
-		}
-		survey.AskOne(&prompt, &githubKey, func(a interface{}) error {
-			var ans string
-			var ok bool
-			if ans, ok = a.(string); !ok {
-				return errors.New("not a string")
-			}
-			if _, err := hex.DecodeString(ans); len(ans) == 40 && err == nil {
-				return nil
-			}
-			return errors.New("not a valid personal access token")
-		})
-		if githubKey == "" {
-			logrus.Fatal("github key not set")
-		}
+	githubToken, err := findGithubToken()
+	if err != nil {
+		logrus.WithError(err).Fatal("need a github token")
 	}
 	ctx, cancel := context.WithCancel(context.Background())
 	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: githubKey},
+		&oauth2.Token{AccessToken: githubToken},
 	)
 	tc := oauth2.NewClient(ctx, ts)
 
@@ -120,6 +100,6 @@ func initConfig() {
 	}
 
 	if err := viper.ReadInConfig(); err != nil {
-		logrus.WithError(err).Error("Can't read config")
+		logrus.WithError(err).Info("Can't read config")
 	}
 }

@@ -2,9 +2,9 @@ APP=octonotify
 VERSION=$(shell git describe)
 GLIDE=$(GOPATH)/bin/glide
 
-all: clean $(APP)
+all: $(APP)
 
-$(APP): vendor
+$(APP): vendor $(wildcard */*.go)
 	go build -o $@ -ldflags='-X main.version=$(VERSION)' $(wildcard cmd/*.go)
 
 $(GLIDE):

@@ -21,3 +21,4 @@ import:
 - package: gopkg.in/AlecAivazis/survey.v1
   version: ^1.5.1
 - package: github.com/gen2brain/beeep
+- package: github.com/zalando/go-keyring
