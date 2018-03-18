@@ -5,7 +5,7 @@ GLIDE=$(GOPATH)/bin/glide
 all: $(APP)
 
 $(APP): vendor $(wildcard */*.go)
-	go build -o $@ -ldflags='-X main.version=$(VERSION)' $(wildcard cmd/*.go)
+	go build -o $@ -ldflags='-X main.version=$(VERSION)' $(wildcard cmd/$(APP)/*.go)
 
 $(GLIDE):
 	go get github.com/Masterminds/glide
