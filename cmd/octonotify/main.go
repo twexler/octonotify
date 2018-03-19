@@ -7,6 +7,7 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/twexler/octonotify/icons"
 	"github.com/twexler/octonotify/notifier"
 
 	"github.com/google/go-github/github"
@@ -67,14 +68,15 @@ func cobraMain(cmd *cobra.Command, _ []string) {
 	w := watcher.New(client.Activity, notificationChan)
 
 	localNotifier := notifier.New(false)
+	iconPath := icons.GetIconPathOnDisk()
 
-	localNotifier.Notify("Octonotify", "Starting", "")
+	localNotifier.Notify("Octonotify", "Starting", iconPath)
 	go w.Run(ctx, interval)
 	sigChan := make(chan os.Signal)
 	signal.Notify(sigChan, os.Interrupt)
 	go func() {
 		for range sigChan {
-			localNotifier.Notify("Octonotify", "Exiting", "")
+			localNotifier.Notify("Octonotify", "Exiting", iconPath)
 			cancel()
 			os.Exit(0)
 		}
@@ -82,7 +84,7 @@ func cobraMain(cmd *cobra.Command, _ []string) {
 	go func() {
 		for n := range notificationChan {
 			message := fmt.Sprintf("New notification on %s", *n.GetRespository())
-			localNotifier.Notify("Octonotify", message, "")
+			localNotifier.Notify("Octonotify", message, iconPath)
 		}
 	}()
 	select {}
