@@ -22,3 +22,5 @@ import:
   version: ^1.5.1
 - package: github.com/gen2brain/beeep
 - package: github.com/zalando/go-keyring
+- package: github.com/getlantern/golog
+- package: howett.net/plist

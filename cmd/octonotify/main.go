@@ -35,9 +35,14 @@ func init() {
 }
 
 func main() {
-	if err := rootCmd.Execute(); err != nil {
-		logrus.WithError(err).Fatal("halp")
-	}
+	// core logic needs to be immediately pushed into it's own goroutine
+	// so the systray icon/code can continue running on the main goroutine/thread
+	go func() {
+		if err := rootCmd.Execute(); err != nil {
+			logrus.WithError(err).Fatal("halp")
+		}
+	}()
+	initSystray()
 }
 
 func cobraMain(cmd *cobra.Command, _ []string) {

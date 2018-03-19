@@ -1,3 +1,6 @@
+.DS_Store
 debug*
 octonotify*
+!icons/octonotify*
+icons/bindata.go
 vendor/
