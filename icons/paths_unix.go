@@ -1,4 +1,5 @@
 //+build !windows !darwin
+
 package icons
 
 import "path"
