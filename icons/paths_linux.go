@@ -5,7 +5,6 @@ package icons
 import "path"
 
 const (
-	IconPath  = "octonotify-small.png"
 	sharePath = "/usr/share"
 )
 
