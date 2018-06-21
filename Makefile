@@ -3,9 +3,16 @@ VERSION=$(shell git describe)
 GLIDE=$(GOPATH)/bin/glide
 ICNSIFY=$(GOPATH)/bin/icnsify
 GOBINDATA=$(GOPATH)/bin/go-bindata
-
+ifeq ($(TRAVIS_OS_NAME),"osx")
+APP_TARGET=build/octonotify.app
+else
+APP_TARGET=build/octonotify
+endif
 
 all: build/$(APP)
+
+#travis specific target
+install: $(APP_TARGET)
 
 icons/bindata.go: $(GOBINDATA) $(wildcard icons/*.png)
 	$(GOBINDATA) -ignore='.*(svg|go)$$' -o $@ -pkg icons -prefix icons icons
