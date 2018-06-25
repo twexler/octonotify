@@ -1,5 +1,6 @@
 APP=octonotify
-VERSION = $(shell git describe)
+SHELL=bash
+VERSION = $(shell bash scripts/git_version.sh)
 GLIDE = $(GOPATH)/bin/glide
 ICNSIFY = $(GOPATH)/bin/icnsify
 GOBINDATA = $(GOPATH)/bin/go-bindata
