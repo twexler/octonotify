@@ -2,9 +2,16 @@ language: go
 addons:
   apt:
     packages:
-      - libappindicator3-dev
-      - libgtk-3-dev
-
+    - libappindicator3-dev
+    - libgtk-3-dev
 os:
-  - osx
-  - linux
+- osx
+- linux
+deploy:
+  provider: releases
+  api_key:
+    secure: lOWEw0e+XTA9peaxMdJ1BcdWE2hcFgquCxd+pZQJeYJyenfbDdUjT1Ems2e2qKDNENbAlr236xRZyOsFuJenNSEg14S18lz9aTF4sOz0h69b6SOyM/7weeF3nkP6BX1fVg2M9E/eBlMOdoZzxitu06qcrHaFq0PhUfnADmhjtPPFS4MPoJ3ymfxGpK9tCbrcFv93TFBzS/oqdOXky6emvDyL78oqfrot8Mek9Ik9RHOoatYCVI3jI08Fys2zsxe2OVQjQiS7n4KHFwHRV1kVxGmRIdAx91Mhm6mMRhBbAhF64yVgvrZxHPIRx1IXcsle0cXdtXbeFGyMsCY//wF1JrfBw1EtHm6VvC0fWL+0jNT3JvvmdEI2GgzNtTitSZsQRIFZC4ZOqhS6C0K6oixzjht6jQa4Vt8xgo+TSRj4nx34pmWVOxdZVySdeRaUbmRmUFBm96MpWpIHyTTE41pLDThe7/cYC63Im1OqEORLHBBSANJFLmmGG6qqtD5UGMq8jv5HKygoBn01h34UyZZygHkOiE1/4geALcFmNnsz8Cgc1t2XiUuNiq7Kvy6TCwQis9wqKBFt+n55QdbFHnuPvn2/eRVKo16x6+LPYVxhlljRZV2lUBjNxOIYG2z4YJics7hf+zq/6LeydO6gUyPoruQxIcWm7kVG7UfeL6PlgN8=
+  file: build/*
+  file_glob: true
+  on:
+    repo: twexler/octonotify
