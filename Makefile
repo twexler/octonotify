@@ -8,7 +8,7 @@ APP = $(APP_NAME)
 APP_TARGET = build/$(APP)
 
 ifeq ("$(TRAVIS_OS_NAME)","osx")
-APP_TARGET := build/octonotify.app
+APP_TARGET := build/octonotify.app.zip
 endif
 
 ifeq ("$(APPVEYOR)","True")
@@ -32,6 +32,9 @@ build/$(APP).app: build/$(APP) icons/octonotify.icns
 	mkdir -p $@/Contents/Resources
 	cp icons/octonotify.icns $@/Contents/Resources
 	go run -ldflags='-X main.version=$(VERSION)' scripts/genplist.go
+
+build/$(APP).app.zip: build/$(APP).app
+	pushd build/; zip -r $(shell basename $@) $(shell basename $<)
 
 icons/octonotify.icns: $(ICNSIFY) icons/octonotify-small.png
 	$(ICNSIFY) -i icons/octonotify-small.png -o $@
