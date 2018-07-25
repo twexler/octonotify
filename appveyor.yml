@@ -5,7 +5,7 @@ environment:
 build_script:
 - cmd: >-
     choco install -y make
-    
+
     make
 artifacts:
 - path: build/octonotify.exe
@@ -18,5 +18,4 @@ deploy:
   artifact: build/octonotify.exe
   draft: true
   on:
-    branch: master
     appveyor_repo_tag: true
