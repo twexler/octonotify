@@ -11,7 +11,7 @@ ifeq ("$(TRAVIS_OS_NAME)","osx")
 APP_TARGET := build/octonotify.app
 endif
 
-ifeq ("$(APPVEYOR)","true")
+ifeq ("$(APPVEYOR)","True")
 APP := $(APP_NAME).exe
 endif
 
