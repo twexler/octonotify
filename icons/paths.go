@@ -1,5 +1,5 @@
 package icons
 
 const (
-	IconPath  = "octonotify-small.png"
+	IconPath = "octonotify-small.png"
 )

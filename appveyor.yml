@@ -1,0 +1,19 @@
+version: 1.0.{build}
+clone_folder: c:\gopath\src\github.com\twexler\octonotify
+environment:
+  GOPATH: c:\gopath
+build_script:
+- cmd: >-
+    choco install make
+
+    make
+artifacts:
+- path: octonotify.exe
+  name: octonotify
+deploy:
+- provider: GitHub
+  auth_token:
+    secure: g1pvtkff+IkhSeABhJ7uHAyHw9eNoshBRvx//ouuY0XiaybltXW5akOwLuzbIS4m
+  artifact: octonotify.exe
+  on:
+    branch: master
