@@ -8,12 +8,12 @@ build_script:
 
     make
 artifacts:
-- path: octonotify.exe
+- path: build/octonotify.exe
   name: octonotify
 deploy:
 - provider: GitHub
   auth_token:
     secure: g1pvtkff+IkhSeABhJ7uHAyHw9eNoshBRvx//ouuY0XiaybltXW5akOwLuzbIS4m
-  artifact: octonotify.exe
+  artifact: build/octonotify.exe
   on:
     branch: master
