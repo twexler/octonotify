@@ -20,7 +20,10 @@ all: $(APP_TARGET)
 icons/bindata.go: $(GOBINDATA) $(wildcard icons/*.png)
 	$(GOBINDATA) -ignore='.*(svg|go)$$' -o $@ -pkg icons -prefix icons icons
 
-build/$(APP): $(wildcard */*.go) vendor icons/bindata.go 
+build:
+	mkdir $@
+
+build/$(APP): build $(wildcard */*.go) vendor icons/bindata.go
 	go build -o $@ -ldflags='-X main.version=$(VERSION)' $(wildcard cmd/$(APP_NAME)/*.go)
 
 build/$(APP).app: build/$(APP) icons/octonotify.icns
@@ -46,6 +49,6 @@ vendor: $(GLIDE)
 	$(GLIDE) install
 
 clean:
-	rm -rf $(APP) vendor
+	rm -rf vendor build
 
 .PHONY: clean
