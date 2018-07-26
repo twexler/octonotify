@@ -10,14 +10,14 @@ build_script:
 
     make
 artifacts:
-- path: build/octonotify.exe
+- path: build/octonotify*.exe
   name: octonotify
 deploy:
 - provider: GitHub
   release: $(APPVEYOR_REPO_TAG_NAME)
   auth_token:
     secure: g1pvtkff+IkhSeABhJ7uHAyHw9eNoshBRvx//ouuY0XiaybltXW5akOwLuzbIS4m
-  artifact: build/octonotify.exe
+  artifact: build/octonotify*.exe
   draft: true
   on:
     appveyor_repo_tag: true

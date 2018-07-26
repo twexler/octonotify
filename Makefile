@@ -4,18 +4,19 @@ VERSION = $(shell bash scripts/git_version.sh)
 GLIDE = $(GOPATH)/bin/glide
 ICNSIFY = $(GOPATH)/bin/icnsify
 GOBINDATA = $(GOPATH)/bin/go-bindata
-APP = $(APP_NAME)
-APP_TARGET = build/$(APP)
-
-ifeq ("$(TRAVIS_OS_NAME)","osx")
-APP_TARGET := build/octonotify.app.zip
-endif
+APP_EXEC = build/$(APP_NAME)-$(VERSION)-$(shell uname | tr A-Z a-z)-$(shell uname -m)
 
 ifeq ("$(APPVEYOR)","True")
-APP := $(APP_NAME).exe
+APP_EXEC := build/$(APP_NAME)-$(VERSION)-windows-x64.exe
 endif
 
-all: $(APP_TARGET) 
+APP := $(APP_EXEC)
+
+ifeq ("$(TRAVIS_OS_NAME)","osx")
+APP := build/$(APP_NAME).app.zip
+endif
+
+all: $(APP) 
 
 icons/bindata.go: $(GOBINDATA) $(wildcard icons/*.png)
 	$(GOBINDATA) -ignore='.*(svg|go)$$' -o $@ -pkg icons -prefix icons icons
@@ -23,17 +24,17 @@ icons/bindata.go: $(GOBINDATA) $(wildcard icons/*.png)
 build:
 	mkdir $@
 
-build/$(APP): build $(wildcard */*.go) vendor icons/bindata.go
+$(APP_EXEC): build $(wildcard */*.go) vendor icons/bindata.go
 	go build -o $@ -ldflags='-X main.version=$(VERSION)' $(wildcard cmd/$(APP_NAME)/*.go)
 
-build/$(APP).app: build/$(APP) icons/octonotify.icns
+build/$(APP_NAME).app: $(APP_EXEC) icons/octonotify.icns
 	mkdir -p $@/Contents/MacOS
-	cp build/$(APP) $@/Contents/MacOS/
+	cp $(APP_EXEC) $@/Contents/MacOS/
 	mkdir -p $@/Contents/Resources
 	cp icons/octonotify.icns $@/Contents/Resources
 	go run -ldflags='-X main.version=$(VERSION)' scripts/genplist.go
 
-build/$(APP).app.zip: build/$(APP).app
+build/$(APP_NAME).app.zip: build/$(APP_NAME).app
 	pushd build/; zip -r $(shell basename $@) $(shell basename $<)
 
 icons/octonotify.icns: $(ICNSIFY) icons/octonotify-small.png
